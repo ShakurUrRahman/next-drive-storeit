@@ -3,6 +3,9 @@ import React from "react";
 // import Image from "next/image";
 import Search from "@/components/Search";
 import FileUploader from "@/components/FileUploader";
+import Image from "next/image";
+import { Button } from "./ui/button";
+import { signOutUser } from "@/lib/appwrite/actions/user.actions";
 // import { signOutUser } from "@/lib/actions/user.actions";
 
 const Header = ({
@@ -17,7 +20,7 @@ const Header = ({
 			<Search />
 			<div className="header-wrapper">
 				<FileUploader ownerId={userId} accountId={accountId} />
-				{/* <form
+				<form
 					action={async () => {
 						"use server";
 
@@ -33,7 +36,7 @@ const Header = ({
 							className="w-6"
 						/>
 					</Button>
-				</form> */}
+				</form>
 			</div>
 		</header>
 	);
