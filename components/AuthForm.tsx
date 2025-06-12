@@ -16,6 +16,8 @@ import { Input } from "@/components/ui/input";
 import Image from "next/image";
 import { useState } from "react";
 import Link from "next/link";
+import { createAccount } from "@/lib/appwrite/actions/user.actions";
+import OtpModal from "./OTPModal";
 
 type FormType = "sign-in" | "sign-up";
 
@@ -32,6 +34,7 @@ const authFormSchema = (formType: FormType) => {
 const AuthForm = ({ type }: { type: FormType }) => {
 	const [isLoading, setIsLoading] = useState(false);
 	const [errorMessage, setErrorMessage] = useState("");
+	const [accountId, setAccountId] = useState(null);
 
 	const formSchema = authFormSchema(type);
 
@@ -45,7 +48,21 @@ const AuthForm = ({ type }: { type: FormType }) => {
 
 	// 2. Define a submit handler.
 	const onSubmit = async (values: z.infer<typeof formSchema>) => {
-		console.log(values);
+		setIsLoading(true);
+		setErrorMessage("");
+
+		try {
+			const user = await createAccount({
+				fullName: values.fullName || "",
+				email: values.email,
+			});
+
+			setAccountId(user.accountId);
+		} catch {
+			setErrorMessage("Failed to create account. Please try again.");
+		} finally {
+			setIsLoading(false);
+		}
 	};
 
 	return (
@@ -123,7 +140,7 @@ const AuthForm = ({ type }: { type: FormType }) => {
 						)}
 					</Button>
 					{errorMessage && (
-						<p className="error-message">*{errorMessage}</p>
+						<p className="error-message">{errorMessage}</p>
 					)}
 					<div className="body-2 flex justify-center">
 						<p className="text-light-100">
@@ -141,6 +158,13 @@ const AuthForm = ({ type }: { type: FormType }) => {
 				</form>
 			</Form>
 			{/* OTP Verification */}
+
+			{accountId && (
+				<OtpModal
+					email={form.getValues("email")}
+					accountId={accountId}
+				/>
+			)}
 		</>
 	);
 };
