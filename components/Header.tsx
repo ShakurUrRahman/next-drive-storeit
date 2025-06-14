@@ -5,7 +5,7 @@ import Search from "@/components/Search";
 import FileUploader from "@/components/FileUploader";
 import Image from "next/image";
 import { Button } from "./ui/button";
-import { signOutUser } from "@/lib/appwrite/actions/user.actions";
+import { signOutUser } from "@/lib/actions/user.actions";
 // import { signOutUser } from "@/lib/actions/user.actions";
 
 const Header = ({

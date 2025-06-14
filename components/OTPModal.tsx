@@ -15,10 +15,7 @@ import {
 	InputOTPGroup,
 	InputOTPSlot,
 } from "@/components/ui/input-otp";
-import {
-	sendEmailOTP,
-	verifySecret,
-} from "@/lib/appwrite/actions/user.actions";
+import { sendEmailOTP, verifySecret } from "@/lib/actions/user.actions";
 import Image from "next/image";
 import { useState } from "react";
 import { Button } from "./ui/button";
